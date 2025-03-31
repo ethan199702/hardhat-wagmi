@@ -1,39 +1,39 @@
-import { http, createConfig } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
-import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import {
+  arbitrum,
+  base,
+  mainnet,
+  optimism,
+  polygon,
+  sepolia,
+} from 'wagmi/chains';
 
+// 配置 Ganache 本地网络
 const ganacheChain = {
   id: 1337,
   name: "Ganache",
   nativeCurrency: {
-    name: "EthanToken",
-    symbol: "ETBNB",
+    name: "Ether",
+    symbol: "ETH",
     decimals: 18,
   },
   rpcUrls: {
     default: {
-      http: ["http://localhost:9545"],
+      http: ["http://127.0.0.1:7545"], // Ganache 默认端口
     },
   },
   testnet: true,
 };
-
-export const config = createConfig({
-  chains: [mainnet, sepolia, ganacheChain],
-  connectors: [
-    injected(),
-    coinbaseWallet(),
-    walletConnect({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
+export const config = getDefaultConfig({
+  appName: 'RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains: [
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+    base,ganacheChain,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
   ],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-    [ganacheChain.id]: http("http://localhost:9545"),
-  },
+  ssr: true,
 });
-
-declare module "wagmi" {
-  interface Register {
-    config: typeof config;
-  }
-}

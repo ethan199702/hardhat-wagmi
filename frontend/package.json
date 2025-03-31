@@ -1,29 +1,26 @@
 {
-  "name": "wagmi-project",
+  "name": "frontend",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.1.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "biome check .",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "@tanstack/react-query": "5.45.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "viem": "latest",
-    "wagmi": "latest"
+    "@rainbow-me/rainbowkit": "^2.2.4",
+    "@tanstack/react-query": "^5.55.3",
+    "bignumber.js": "^9.1.2",
+    "next": "^15.1.4",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "viem": "2.23.3",
+    "wagmi": "^2.14.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.0",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "@wagmi/cli": "latest",
-    "buffer": "^6.0.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "@types/node": "^20.14.8",
+    "@types/react": "^19.0.6",
+    "eslint-config-next": "^15.1.7",
+    "typescript": "5.5.4"
   }
 }
