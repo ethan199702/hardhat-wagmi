@@ -1,4 +1,4 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import {
   arbitrum,
   base,
@@ -6,7 +6,7 @@ import {
   optimism,
   polygon,
   sepolia,
-} from 'wagmi/chains';
+} from "wagmi/chains";
 
 // 配置 Ganache 本地网络
 const ganacheChain = {
@@ -25,15 +25,17 @@ const ganacheChain = {
   testnet: true,
 };
 export const config = getDefaultConfig({
-  appName: 'RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
+  appName: "RainbowKit App",
+  projectId:
+    process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "YOUR_PROJECT_ID",
   chains: [
     mainnet,
     polygon,
     optimism,
     arbitrum,
-    base,ganacheChain,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
+    base,
+    ganacheChain,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
   ],
   ssr: true,
 });

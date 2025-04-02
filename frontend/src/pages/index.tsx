@@ -2,22 +2,21 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useAccount, useReadContract } from "wagmi";
+import TransferForm from "@/components/TransferForm";
 import { parseUnits } from "../utils";
-import MyErc20 from "../contracts/MyERC20.json";
-import styles from "../styles/Home.module.css";
+import { useConfig } from "@/hooks/useConfig";
 
 const Home: NextPage = () => {
   const { address } = useAccount();
+  const config = useConfig();
 
   const { data: balance } = useReadContract({
-    address: MyErc20.address as `0x${string}`,
-    abi: MyErc20.abi,
+    ...config,
     functionName: "balanceOf",
     args: [address],
   });
-  console.log("🚀 ~ data:", balance);
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>RainbowKit App</title>
         <meta
@@ -26,10 +25,13 @@ const Home: NextPage = () => {
         />
       </Head>
 
-      <main className={styles.main}>
+      <main>
         <ConnectButton />
         <div className="">address:{address}</div>
-        <div>{balance && <>{parseUnits(balance, 35)}</>}</div>
+        <div>
+          {typeof balance === "bigint" && parseUnits(balance.toString(), 18)}
+        </div>
+        <TransferForm />
       </main>
     </div>
   );

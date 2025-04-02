@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 async function main() {
-  const initialSupply = ethers.parseUnits("10000", 18); // 1 万个代币
+  const initialSupply = 10000; // 1 万个代币，
   const MyERC20 = await ethers.getContractFactory("MyERC20");
   const myToken = await MyERC20.deploy(initialSupply);
 

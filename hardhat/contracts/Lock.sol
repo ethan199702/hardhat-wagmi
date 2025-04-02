@@ -138,7 +138,8 @@ contract MyERC20 {
         require(to != address(0), "Invalid address");
         require(balances[from] >= amount, "Insufficient balance");
         require(allowances[from][msg.sender] >= amount, "Allowance exceeded");
-        balances[msg.sender] -= amount;
+        balances[from] -= amount;
+        balances[to] += amount;
         allowances[from][msg.sender] -= amount;
 
         emit Transfer(from, to, amount);
