@@ -1,5 +1,5 @@
 {
-  "address": "0x87b7c141dD1373a7E62eEcCD04b5143aA90c73DC",
+  "address": "0x20A6cb25C942de07210f5B5A6A0A25C612B41534",
   "abi": [
     {
       "inputs": [
@@ -16,13 +16,13 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "owner",
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "spender",
           "type": "address"
@@ -41,13 +41,13 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "from",
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "to",
           "type": "address"

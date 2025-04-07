@@ -24,3 +24,4 @@ const config = createConfig({
 });
 
 export default config;
+export { ganacheChain };

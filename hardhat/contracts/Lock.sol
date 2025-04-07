@@ -40,14 +40,14 @@ contract MyERC20 {
      * @param to 代币接收方
      * @param value 转账金额
      */
-    event Transfer(address from, address to, uint value);
+    event Transfer(address indexed from, address indexed to, uint value);
     /**
      * @dev 代币授权事件，在 `approve` 函数中触发。
      * @param owner 授权方
      * @param spender 被授权的地址
      * @param value 授权额度
      */
-    event Approval(address owner, address spender, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
 
     /**
      * @dev 合约的构造函数，在部署时执行。
