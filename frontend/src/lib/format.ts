@@ -1,6 +1,9 @@
 import { BigNumber } from "bignumber.js";
 
-export function getSlicString(val: string, subString: number = 6) {
+export function getSlicString(
+  val: string | `0x${string}`,
+  subString: number = 6
+) {
   if (!val) return "-";
   const start = val.substring(0, subString);
   const end = val.substring(val.length - subString);

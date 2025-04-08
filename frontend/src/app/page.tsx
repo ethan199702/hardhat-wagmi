@@ -1,6 +1,6 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
+import ConnectWallet from "@/components/ConnectWallet";
 import {
   Form,
   FormControl,
@@ -10,18 +10,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import MyErc20 from "@/contracts/MyERC20.json";
-import {
-  useAccount,
-  useReadContract,
-  useConnect,
-  useWriteContract,
-} from "wagmi";
-import { injected } from "wagmi/connectors";
+import { useWriteContract } from "wagmi";
 import { useForm } from "react-hook-form";
-import { parseUnits, formatUnits, decodeEventLog } from "viem";
+import { parseUnits, decodeEventLog } from "viem";
 import useClient from "@/hooks/client";
 
-import { getSlicString } from "@/lib/format";
 import { useEffect } from "react";
 
 export default function HomePage() {
@@ -34,22 +27,8 @@ export default function HomePage() {
       amount: "",
     },
   });
-  const { connect } = useConnect();
-  const { address } = useAccount();
+
   const { writeContract } = useWriteContract();
-
-  const { data: tokenName } = useReadContract({
-    address: MyErc20.address as `0x${string}`,
-    abi: MyErc20.abi,
-    functionName: "name",
-  });
-
-  const { data: balanceOf } = useReadContract({
-    address: MyErc20.address as `0x${string}`,
-    abi: MyErc20.abi,
-    functionName: "balanceOf",
-    args: [address],
-  });
 
   function handleSubmit({ to, amount }: { to: string; amount: string }) {
     if (to && amount) {
@@ -66,8 +45,10 @@ export default function HomePage() {
   async function getEventLogs() {
     const logs = await useClient.getLogs({
       address: MyErc20.address as `0x${string}`,
+      // @ts-ignore
       abi: MyErc20.abi,
       eventName: "Transfer",
+      // @ts-ignore
       fromBlock: 0n,
       toBlock: "latest",
     });
@@ -84,16 +65,7 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto py-10 ">
-      <Button
-        onClick={() => {
-          connect({ connector: injected() });
-        }}
-      >
-        wallit
-      </Button>
-      <p>address:{getSlicString(address as string)}</p>
-      <p>tokenName:{tokenName as string}</p>
-      {balanceOf && <p>balanceOf:{formatUnits(balanceOf as bigint, 18)}</p>}
+      <ConnectWallet />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => handleSubmit(data))}>
