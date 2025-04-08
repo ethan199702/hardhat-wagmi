@@ -1,5 +1,5 @@
 import { createConfig, http } from "wagmi";
-import { Chain } from "wagmi/chains";
+import { Chain, mainnet, bsc } from "wagmi/chains";
 
 const ganacheChain: Chain = {
   id: 1337,
@@ -16,7 +16,7 @@ const ganacheChain: Chain = {
   testnet: true,
 };
 const config = createConfig({
-  chains: [ganacheChain],
+  chains: [mainnet, bsc, ganacheChain],
   ssr: true,
   transports: {
     [ganacheChain.id]: http(),

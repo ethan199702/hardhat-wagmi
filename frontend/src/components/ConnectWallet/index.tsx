@@ -14,13 +14,16 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
+import ConnectNetwork from "../ConnectNetwork";
+
 const ConnectWallet = () => {
   const { address, isDisconnected, isConnecting } = useAccount();
+
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
 
   const WalletAvatar: FC<{ size: number }> = ({ size }) => {
-    const avatarUrl = `https://api.dicebear.com/9.x/bottts/svg?seed=${(
+    const avatarUrl = `https://api.dicebear.com/9.x/dylan/svg?seed=${(
       address as string
     ).toLowerCase()}`;
     return (
@@ -35,19 +38,20 @@ const ConnectWallet = () => {
     );
   };
 
-  if (isConnecting) return <Button>连接钱包中.....</Button>;
-  if (isDisconnected)
-    return (
-      <Button
-        onClick={() => {
-          connect({ connector: injected() });
-        }}
-      >
-        连接钱包
-      </Button>
-    );
   return (
-    <div>
+    <div className="flex items-center justify-end">
+      {isConnecting && <Button variant={"outline"}>连接钱包中.....</Button>}
+      {isDisconnected && (
+        <Button
+          variant={"outline"}
+          onClick={() => {
+            connect({ connector: injected() });
+          }}
+        >
+          连接钱包
+        </Button>
+      )}
+      <ConnectNetwork />
       <Dialog>
         <DialogTrigger asChild>
           <span className="bg-white h-10 px-[10px] leading-10 cursor-pointer shadow-lg rounded-2xl flex items-center">

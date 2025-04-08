@@ -64,7 +64,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="container mx-auto py-10 ">
+    <div className="p-2">
       <ConnectWallet />
 
       <Form {...form}>
