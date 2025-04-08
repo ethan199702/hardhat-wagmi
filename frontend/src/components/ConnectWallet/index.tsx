@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 
-import { getSlicString } from "@/lib/format";
+import { getSlicString, formatUnits } from "@/lib/format";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -15,17 +15,25 @@ import {
 } from "../ui/dialog";
 
 import ConnectNetwork from "../ConnectNetwork";
+import { ChainList } from "@/static/chain";
+import useBalance from "@/hooks/useBalance";
 
 const ConnectWallet = () => {
-  const { address, isDisconnected, isConnecting } = useAccount();
+  const { address, isDisconnected, isConnecting, chainId } = useAccount();
+  const chainAddress = ChainList[chainId as number];
+
+  const { balance, decimals, symbol } = useBalance({
+    tokenAddress: chainAddress,
+    userAddress: address as `0x${string}`,
+  });
 
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
 
   const WalletAvatar: FC<{ size: number }> = ({ size }) => {
-    const avatarUrl = `https://api.dicebear.com/9.x/dylan/svg?seed=${(
+    const avatarUrl = `https://api.dicebear.com/9.x/dylan/svg?seed=${
       address as string
-    ).toLowerCase()}`;
+    }`;
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -73,6 +81,15 @@ const ConnectWallet = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <div className="bg-white h-10 px-[10px] leading-10 cursor-pointer shadow-lg rounded-2xl ml-2 min-w-9">
+        {balance !== null && balance !== undefined ? (
+          <>
+            {formatUnits(balance, decimals)} {symbol}
+          </>
+        ) : (
+          "-"
+        )}
+      </div>
     </div>
   );
 };

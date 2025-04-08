@@ -11,8 +11,8 @@ export function getSlicString(
 }
 
 // 把 使用bignumber转换成以太币
-export function formatUnits(val: string, decimals: number = 18) {
-  const bigNumber = new BigNumber(val);
+export function formatUnits(val: string | bigint, decimals: number = 18) {
+  const bigNumber = new BigNumber(val as string);
   const result = bigNumber.dividedBy(new BigNumber(10).pow(decimals));
   return result.toString();
 }

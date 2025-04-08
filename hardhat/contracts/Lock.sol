@@ -64,8 +64,8 @@ contract MyERC20 {
     /**
      * @dev 查询地址的余额
      */
-    function balanceOf(address account) public view returns (uint) {
-        return balances[account];
+    function balanceOf(address owner) public view returns (uint) {
+        return balances[owner];
     }
 
     /**
