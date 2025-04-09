@@ -9,16 +9,17 @@ import config from "@/lib/config";
 interface ProvidersProps {
   children: ReactNode;
 }
-const Providers: FC<ProvidersProps> = ({ children }) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        retry: false,
-        staleTime: 1000 * 60 * 5, // 5 minutes
-      },
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     },
-  });
+  },
+});
+const Providers: FC<ProvidersProps> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={config}>{children}</WagmiProvider>
