@@ -3,6 +3,11 @@ pragma solidity ^0.8.28;
 
 contract MyERC20 {
     /**
+     * @dev 代币的拥有者地址，通常是合约的部署者。
+     *      在这个简单的实现中，合约的拥有者是部署合约的地址。
+     */
+    address public owner;
+    /**
      * @dev 代币的名称，比如 "Ethereum"
      */
     string public name = "EthanToken";
@@ -59,8 +64,39 @@ contract MyERC20 {
         totalSupply = initialSupply * 10 ** uint(decimals);
         balances[msg.sender] = totalSupply;
         emit Transfer(address(0), msg.sender, totalSupply);
+        owner = msg.sender; // 设置合约的拥有者为部署者
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not the contract owner");
+        _;
+    }
+
+    /**
+     * @dev 铸造代币给合约拥有者
+     */
+    function mint(address to, uint amount) public onlyOwner {
+        require(address(0) != to, "Invalid address");
+        require(amount > 0, "Invalid amount");
+
+        // 增加总供应量
+
+        totalSupply += amount;
+        balances[to] += amount;
+        emit Transfer(address(0), to, amount);
+    }
+
+    /**
+     * @dev 销毁代币
+     */
+    function burn(uint amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        require(amount > 0, "Invalid amount");
+        // 减少总供应量
+        totalSupply -= amount;
+        balances[msg.sender] -= amount;
+        emit Transfer(msg.sender, address(0), amount);
+    }
     /**
      * @dev 查询地址的余额
      */

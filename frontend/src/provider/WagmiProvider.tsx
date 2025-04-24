@@ -3,7 +3,11 @@
 import { FC, ReactNode } from "react";
 
 import { WagmiProvider } from "wagmi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider as TanstackQueryClientProvider,
+} from "@tanstack/react-query";
+
 import config from "@/lib/config";
 
 interface ProvidersProps {
@@ -15,15 +19,17 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 5,
     },
   },
 });
+
 const Providers: FC<ProvidersProps> = ({ children }) => {
   return (
-    <QueryClientProvider client={queryClient}>
+    <TanstackQueryClientProvider client={queryClient}>
       <WagmiProvider config={config}>{children}</WagmiProvider>
-    </QueryClientProvider>
+    </TanstackQueryClientProvider>
   );
 };
+
 export default Providers;

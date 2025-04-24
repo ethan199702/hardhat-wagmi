@@ -10,6 +10,7 @@ import { formatUnits, getSlicString } from "@/lib/format";
 import CopyIcon from "@/assets/images/copy.svg";
 import WalletAvatar from "../WalletAvatar";
 import TransferDialog from "../TransferDIalog";
+import Mint from "../Mint";
 import {
   BalanceContext,
   type BalanceContextType,
@@ -34,7 +35,7 @@ interface ITableData {
 const TransactionHistory = () => {
   const context = useContext(BalanceContext);
   const { decimals, symbol } = context as BalanceContextType;
-  const { chainId } = useAccount();
+  const { chainId, address } = useAccount();
 
   const [tableData, setTableData] = useState<ITableData[]>([]);
 
@@ -67,6 +68,7 @@ const TransactionHistory = () => {
   return (
     <div className="bg-white my-6 rounded-lg p-4 shadow-lg">
       <div className="flex justify-end gap-1">
+        <Mint address={address as `0x${string}`} />
         <TransferDialog />
       </div>
       <Separator className="my-2" />
