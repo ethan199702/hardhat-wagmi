@@ -1,16 +1,11 @@
-import { FC, useState, useContext, useEffect } from "react";
-import { useReadContract, useWriteContract } from "wagmi";
+import { FC, useState, useEffect } from "react";
+import { useReadContract } from "wagmi";
+import useWrite from "@/hooks/useWrite";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
 import MyErc20 from "@/contracts/MyERC20.json";
-import { formatWei } from "@/lib/format";
 
-import {
-  BalanceContext,
-  type BalanceContextType,
-} from "@/provider/BalanceProvider";
 import { Button } from "ui/button";
 import {
   Dialog,
@@ -40,22 +35,9 @@ const Mint: FC<IProps> = ({ address }) => {
       amount: "",
     },
   });
-  const context = useContext(BalanceContext);
-  const queryClient = useQueryClient();
-
-  const { decimals } = context as BalanceContextType;
 
   const [isOpen, setIsOpen] = useState(false);
-  const { writeContract, isPending, isSuccess } = useWriteContract({
-    mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["readContract"],
-          exact: false,
-        });
-      },
-    },
-  });
+  const { writeContract, isPending, isSuccess } = useWrite();
 
   const { data: owner } = useReadContract({
     address: MyErc20.address as `0x${string}`,
@@ -72,13 +54,11 @@ const Mint: FC<IProps> = ({ address }) => {
       return;
     }
 
-    const _amount = formatWei(amount, decimals);
-
     writeContract({
       address: MyErc20.address as `0x${string}`,
       abi: MyErc20.abi,
       functionName: "mint",
-      args: [_amount],
+      args: [address, amount],
     });
   };
 

@@ -2,9 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { isAddress } from "ethers";
 import { formatWei, formatUnits, checkBalance } from "@/lib/format";
-import { useWriteContract } from "wagmi";
 import { Loader2 } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
+
 import {
   Dialog,
   DialogContent,
@@ -27,21 +26,14 @@ import {
   BalanceContext,
   type BalanceContextType,
 } from "@/provider/BalanceProvider";
+
+import useWrite from "@/hooks/useWrite";
 import MyErc20 from "@/contracts/MyERC20.json";
 
 const TransferDialog = () => {
   const context = useContext(BalanceContext);
-  const quertClient = useQueryClient();
-  const { writeContract, isPending, isSuccess } = useWriteContract({
-    mutation: {
-      onSuccess: () => {
-        quertClient.invalidateQueries({
-          queryKey: ["readContract"],
-          exact: false,
-        });
-      },
-    },
-  });
+  const { writeContract, isPending, isSuccess } = useWrite();
+
   const { balance, decimals, symbol } = context as BalanceContextType;
   const form = useForm({
     defaultValues: {

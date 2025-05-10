@@ -80,10 +80,11 @@ contract MyERC20 {
         require(amount > 0, "Invalid amount");
 
         // 增加总供应量
+        uint _amount = amount * 10 ** decimals;
 
-        totalSupply += amount;
-        balances[to] += amount;
-        emit Transfer(address(0), to, amount);
+        totalSupply += _amount;
+        balances[to] += _amount;
+        emit Transfer(address(0), to, _amount);
     }
 
     /**
