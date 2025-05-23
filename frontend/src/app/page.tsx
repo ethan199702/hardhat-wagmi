@@ -1,11 +1,3 @@
-import ConnectWallet from "@/components/ConnectWallet";
-import TransactionHistory from "@/components/TransactionHistory";
-
-export default function HomePage() {
-  return (
-    <div className="p-2">
-      <ConnectWallet />
-      <TransactionHistory />
-    </div>
-  );
+export default function Home() {
+  return <div className="text-[20px] text-red-700">111</div>;
 }
