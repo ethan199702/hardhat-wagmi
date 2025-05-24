@@ -3,6 +3,7 @@
 import { FC, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 
 import { config } from "@/lib/config";
 
@@ -15,7 +16,9 @@ const Web3Provider: FC<IProps> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <WagmiProvider config={config}>{children}</WagmiProvider>
+      <WagmiProvider config={config}>
+        <RainbowKitProvider>{children}</RainbowKitProvider>
+      </WagmiProvider>
     </QueryClientProvider>
   );
 };
